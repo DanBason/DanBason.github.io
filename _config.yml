@@ -1,0 +1,22 @@
+title: "Daniel Bason"
+email: dbason@gmail.com
+description: >-
+  Economics & Political Science researcher focused on AI governance,
+  compute policy, and data-driven policy analysis.
+baseurl: ""
+url: "https://danielbason.github.io"
+
+author: "Daniel Bason"
+
+github_username: DanBason
+
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+header_pages:
+  - about.md
+  - blog.md
+  - projects.md
+  - reading-list.md
