@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel Bason</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --ink: #1c1c1c;
+  --mid: #6b6b6b;
+  --faint: #e8e8e8;
+  --bg: #fafaf8;
+  --white: #ffffff;
+  --accent: #1a1a1a;
+  --display: 'EB Garamond', Georgia, serif;
+  --body: 'Inter', sans-serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+/* Nav */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 0;
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+nav.scrolled { border-bottom-color: var(--faint); }
+
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--black); }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 0 5rem;
+  position: relative;
+}
+
+.hero-tag {
+  font-family: var(--body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--mid);
+}
+
+.hero-headline {
+  font-family: var(--display);
+  font-size: clamp(4rem, 8vw, 7.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  margin-bottom: 2.5rem;
+}
+
+.hero-headline em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--mid);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--mid);
+  max-width: 460px;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 0.8rem 1.75rem;
+  border-radius: 2px;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  border: 1px solid var(--faint);
+  color: var(--ink);
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  border-color: var(--black);
+  transform: translateY(-1px);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: bounce 2.5s ease-in-out infinite;
+}
+
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: var(--faint);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(5px); }
+}
+
+/* Section base */
+section { padding: 6rem 0; border-top: 1px solid var(--faint); }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.section-num {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--mid);
+  font-weight: 400;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+/* About */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.about-text p:last-child { margin-bottom: 0; }
+.about-text strong { font-weight: 500; color: var(--black); }
+
+.about-facts { display: flex; flex-direction: column; gap: 0; }
+
+.fact-row {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--faint);
+}
+
+.fact-row:first-child { padding-top: 0; }
+.fact-row:last-child { border-bottom: none; }
+
+.fact-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.3rem;
+}
+
+.fact-value {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* Projects */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  font-family: var(--body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--faint);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  background: var(--faint);
+}
+
+.project-card {
+  background: var(--bg);
+  padding: 2rem;
+  transition: background 0.2s;
+}
+
+.project-card:hover { background: var(--white); }
+.project-card[data-hidden="true"] { display: none; }
+
+.project-type {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 1rem;
+}
+
+.project-name {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.tag {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  background: var(--faint);
+  color: var(--mid);
+  border-radius: 2px;
+}
+
+.project-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--black);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap 0.2s;
+}
+
+.project-link:hover { gap: 0.7rem; }
+
+/* Writing */
+.writing-list { display: flex; flex-direction: column; }
+
+.writing-item {
+  display: grid;
+  grid-template-columns: 140px 1fr 80px;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--faint);
+  text-decoration: none;
+  color: inherit;
+}
+
+.writing-item:first-child { border-top: 1px solid var(--faint); }
+.writing-item:hover .writing-title { color: var(--black); }
+
+.writing-cat {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.writing-title {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  transition: color 0.15s;
+}
+
+.writing-date {
+  font-size: 0.75rem;
+  color: var(--mid);
+  text-align: right;
+}
+
+/* Reading */
+.reading-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.reading-group-title {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--faint);
+}
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--faint);
+}
+
+.book-item:last-child { border-bottom: none; }
+
+.book-title {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.book-author {
+  font-size: 0.78rem;
+  color: var(--mid);
+  margin-bottom: 0.4rem;
+}
+
+.book-note {
+  font-size: 0.78rem;
+  color: var(--mid);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Resume strip — quiet */
+.resume-strip {
+  padding: 4rem 0;
+  border-top: 1px solid var(--faint);
+}
+
+.resume-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.resume-headline {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.resume-sub {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--mid);
+  margin-top: 0.35rem;
+}
+
+.btn-resume {
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.btn-resume:hover { opacity: 0.5; }
+
+/* Footer */
+footer {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--faint);
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-note { font-size: 0.75rem; color: var(--mid); }
+
+.footer-socials { display: flex; gap: 1.5rem; }
+
+.footer-socials a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--mid);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.footer-socials a:hover { color: var(--black); }
+
+/* Fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container { padding: 0 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+  .writing-item { grid-template-columns: 100px 1fr; }
+  .writing-date { display: none; }
+  .reading-cols { grid-template-columns: 1fr; gap: 2.5rem; }
+  .resume-inner { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .hero-headline { font-size: 3.5rem; }
+  .nav-links { display: none; }
+  .writing-item { grid-template-columns: 1fr; gap: 0.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="nav-logo">DB</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#reading">Reading</a></li>
+      <li><a href="#resume">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="container">
+    <p class="hero-tag">Economics · Data · Policy</p>
+    <h1 class="hero-headline">
+      Daniel Bason.<br>
+      <em>Studying the systems</em><br>
+      <em>that shape what's next.</em>
+    </h1>
+    <p class="hero-sub">
+      Senior studying Economics & Political Science.
+      Interested in AI governance, data analytics,
+      and the institutions that sit between the two.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">See my work</a>
+      <a href="#about" class="btn btn-ghost">About me</a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</div>
+
+<!-- About -->
+<section id="about">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a senior at [Your University] who got into economics because I wanted
+          to understand why people make the decisions they do — and stayed because
+          the data kept surprising me.
+        </p>
+        <p>
+          Right now I'm building expertise in <strong>AI governance and data analytics</strong>
+          through a structured 90-day sprint: real projects, published writing,
+          and honest feedback loops.
+        </p>
+        <p>
+          Outside the work: competitive [sport], reader of behavioral economics
+          and game theory, and someone who thinks the best conversations happen
+          over a long walk or a good coffee.
+        </p>
+      </div>
+      <div class="about-facts">
+        <div class="fact-row">
+          <span class="fact-label">Currently</span>
+          <span class="fact-value">Senior, Economics & Political Science</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Focus areas</span>
+          <span class="fact-value">AI governance · Data analytics · Finance</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Tools</span>
+          <span class="fact-value">Python · SQL · Excel · Tableau</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Based in</span>
+          <span class="fact-value">Los Angeles, CA</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">LinkedIn</span>
+          <span class="fact-value">
+            <a href="https://linkedin.com/in/danielbason" style="color:var(--ink)">linkedin.com/in/danielbason</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="coding">Coding</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+      <button class="filter-btn" data-filter="other">Other</button>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+
+      <div class="project-card" data-category="coding">
+        <p class="project-type">Coding</p>
+        <h3 class="project-name">FEC Campaign Finance Analyzer</h3>
+        <p class="project-desc">Queried the FEC bulk data API to map PAC spending by industry. Identified trends in tech-sector political spending relative to AI policy votes.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Matplotlib</span>
+        </div>
+        <a href="https://github.com/DanBason/ai-policy-lab" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="project-card" data-category="coding">
+        <p class="project-type">Coding</p>
+        <h3 class="project-name">AI Policy Audit Pipeline</h3>
+        <p class="project-desc">Automated pipeline pulling legislative data from the Congress.gov API into SQLite. Runs analytical queries and exports a CSV summary on each run.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">API</span>
+        </div>
+        <a href="https://github.com/DanBason/ai-policy-lab" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="project-card" data-category="research">
+        <p class="project-type">Research</p>
+        <h3 class="project-name">Compute Governance Analysis</h3>
+        <p class="project-desc">A policy brief mapping how semiconductor export controls function as a lever for AI governance. Grounded in CSET data and trade economics.</p>
+        <div class="project-tags">
+          <span class="tag">Policy</span>
+          <span class="tag">AI Governance</span>
+          <span class="tag">Economics</span>
+        </div>
+        <a href="#writing" class="project-link">Read the brief →</a>
+      </div>
+
+      <div class="project-card" data-category="other">
+        <p class="project-type">Other</p>
+        <h3 class="project-name">[Leadership / Athletic Achievement]</h3>
+        <p class="project-desc">Add a memorable personal project, leadership role, or athletic feat here. The best "other" entry is the one that makes a recruiter pause.</p>
+        <div class="project-tags">
+          <span class="tag">Leadership</span>
+        </div>
+        <a href="#" class="project-link">More →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Writing -->
+<section id="writing">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Writing</h2>
+    </div>
+    <div class="writing-list">
+      <a href="#" class="writing-item">
+        <span class="writing-cat">Professional</span>
+        <span class="writing-title">What I found in FEC data about AI-related PAC spending</span>
+        <span class="writing-date">Jun 2026</span>
+      </a>
+      <a href="#" class="writing-item">
+        <span class="writing-cat">Professional</span>
+        <span class="writing-title">How semiconductor export controls work — and why they matter for AI</span>
+        <span class="writing-date">Coming soon</span>
+      </a>
+      <a href="#" class="writing-item">
+        <span class="writing-cat">Personal</span>
+        <span class="writing-title">What competitive [sport] taught me about reading data under pressure</span>
+        <span class="writing-date">Coming soon</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Reading -->
+<section id="reading">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Reading list</h2>
+    </div>
+    <div class="reading-cols">
+      <div>
+        <p class="reading-group-title">Behavioral economics & decision theory</p>
+        <div class="book-item">
+          <span class="book-title">Thinking, Fast and Slow</span>
+          <span class="book-author">Daniel Kahneman</span>
+          <span class="book-note">The foundational text. Changed how I think about every model I build.</span>
+        </div>
+        <div class="book-item">
+          <span class="book-title">Misbehaving</span>
+          <span class="book-author">Richard Thaler</span>
+          <span class="book-note">Better than it has any right to be as a memoir and as economics.</span>
+        </div>
+        <div class="book-item">
+          <span class="book-title">The Art of Strategy</span>
+          <span class="book-author">Dixit & Nalebuff</span>
+          <span class="book-note">Game theory that actually applies to the decisions you face every week.</span>
+        </div>
+      </div>
+      <div>
+        <p class="reading-group-title">AI governance & tech policy</p>
+        <div class="book-item">
+          <span class="book-title">The Alignment Problem</span>
+          <span class="book-author">Brian Christian</span>
+          <span class="book-note">The clearest book-length treatment of why alignment is hard and why it matters.</span>
+        </div>
+        <div class="book-item">
+          <span class="book-title">Power and Progress</span>
+          <span class="book-author">Acemoglu & Johnson</span>
+          <span class="book-note">Best framing of who captures the gains from technological change.</span>
+        </div>
+        <div class="book-item">
+          <span class="book-title">The Code Breaker</span>
+          <span class="book-author">Walter Isaacson</span>
+          <span class="book-note">How science actually moves: messily, competitively, and with enormous stakes.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resume — quiet -->
+<div class="resume-strip" id="resume">
+  <div class="container fade-in">
+    <div class="resume-inner">
+      <div>
+        <h2 class="resume-headline">Resume</h2>
+        <p class="resume-sub">One page. Updated June 2026.</p>
+      </div>
+      <a href="/assets/resume.pdf" class="btn-resume">Download PDF →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <span class="footer-note">© 2026 Daniel Bason</span>
+    <div class="footer-socials">
+      <a href="https://linkedin.com/in/danielbason" target="_blank">LinkedIn</a>
+      <a href="https://github.com/DanBason" target="_blank">GitHub</a>
+      <a href="mailto:dbason@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav border on scroll
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Project filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.removeAttribute('data-hidden');
+      } else {
+        card.setAttribute('data-hidden', 'true');
+      }
+    });
+  });
+});
+
+// Scroll fade-in
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
